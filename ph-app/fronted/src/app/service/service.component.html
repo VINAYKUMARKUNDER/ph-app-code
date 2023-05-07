@@ -1,0 +1,265 @@
+<!-- Jumbotron -->
+<section class="jumbotron">
+  <div class="container">
+    <h1 class="display-4">Our Services</h1>
+    <p class="lead">
+      We provide a range of pharmacy services to help you stay healthy and
+      manage your medications.
+    </p>
+  </div>
+</section>
+
+<!-- search -->
+
+<section class="search">
+  <div class="container">
+    <div class="row center1">
+      <div class="col-md-3"></div>
+      <div class="col-md-7">
+        <div class="search-container">
+
+          <input type="text" placeholder="Search.." name="search" [(ngModel)]="searchTerm" (keyup)="searchList()">
+          <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
+        </div>
+        <div class="col-md-2"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-2 type">
+        <img
+          src="https://assets.pharmeasy.in/apothecary/images/medicine_ff.webp?dim=256x0"
+          alt=""
+          (click)="searchValue('medicine')"
+        />
+        <h6>Medicine</h6>
+      </div>
+
+      <div class="col-md-2 type">
+        <img
+          src="https://assets.pharmeasy.in/apothecary/images/labtest_ff.webp?dim=720x0"
+          alt=""
+          (click)="searchValue('lab')"
+        />
+        <h6>Lab tests</h6>
+      </div>
+
+      <div class="col-md-2 type">
+        <img
+          src="https://assets.pharmeasy.in/apothecary/images/healthcare_ff.webp?dim=720x0"
+          alt=""
+          (click)="searchValue('healthcare')"
+        />
+        <h6>Halthcare</h6>
+      </div>
+
+      <div class="col-md-2 type">
+        <img
+          src="https://assets.pharmeasy.in/apothecary/images/health_blogs_ff.webp?dim=720x0"
+          alt=""
+          (click)="searchValue('blogs')"
+        />
+        <h6>Health Blogs</h6>
+      </div>
+
+      <div class="col-md-2 type">
+        <img
+          src="https://assets.pharmeasy.in/apothecary/images/plus_ff.webp?dim=720x0"
+          alt=""
+          (click)="searchValue('plus')"
+        />
+        <h6>PLUS</h6>
+      </div>
+
+      <div class="col-md-2 type">
+        <img
+          src="https://assets.pharmeasy.in/apothecary/images/value_store.png?dim=720x0"
+          alt=""
+          (click)="searchValue('store')"
+        />
+        <h6 >Value Store</h6>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- product -->
+
+<section class="product" *ngIf="status=='view'" >
+  <div class="container" *ngIf="allMedicine.length>=1">
+    <div id="main">
+      <div *ngFor="let product of allMedicine" class="product">
+        <div
+          class="card" (click)="viewDetails(product)">
+          <div  *ngIf="searchTerm==='' || product.type.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())">
+            <img class="img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIGvZj6DvHD78FQ8ppcBFO3O9UJActAvuXQ&usqp=CAU" alt="Product Image" />
+            <div class="card-body">
+              <h5 class="card-title wrap">Type: {{ product.type }}</h5>
+              <h6 class="card-title">Product Name: {{ product.productName }}</h6>
+              <p class="card-text wrap">Description: {{ product.about }}</p>
+              <p class="card-text">Price: {{ product.price }} Ru.</p>
+              <p class="card-text">Company: {{ product.mfgcompany }}</p>
+              <button
+                class="btn btn-primary"
+                (click)=" openViewPopUp()"
+                (click)="viewDetails(product)"
+
+                >
+                View
+              </button>
+              <button class="btn btn1 btn-success"  (click)="updateMedicineId(product.id)" >
+                Add Cart
+              </button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <img class="comming-soon" src="https://media.tenor.com/SRSco4res10AAAAj/coming-soon.gif" alt="">
+    </div>
+  </div>
+
+  <ng-container *ngIf="allMedicine.length === 0">
+    <div class="container main">
+      <div class="card-temp">
+
+      </div>
+
+      <div class="center">
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSxaMI-nZzE9tMBP3DBUPPoTKvjAXKCd5azA&usqp=CAU"
+          alt=""
+        />
+        <h4>Your product not found...</h4>
+
+
+        <button class="btn btn-primary" routerLink="/service">View Medicine</button>
+      </div>
+    </div>
+  </ng-container>
+</section>
+
+
+
+
+ <!-- alert massege -->
+<section>
+  <div class="container">
+    <div class="popup" id="popup">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIgA23yukpFgMqKzVE_EKF36O2W_LlFkzu5g&usqp=CAU" alt="">
+      <h2>thank you.</h2>
+      <p>Your details has been successfully submitted. Thanks.</p>
+      <button type="button" (click)="closePopUp()">Ok</button>
+    </div>
+  </div>
+</section>
+
+
+<section>
+  <div class="container">
+    <div class="leaf" id="leaf">
+      <input type="number" placeholder="Enter number of leaf." (click)="openLeafPopUp()" [(ngModel)]="numberOfLeaf">
+      <button type="button" class="btn btn-success" (click)="closeLeafPopUp()">Ok</button>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+<div class="container" *ngIf="status=='create'">
+  <div class="row">
+    <div class="col-lg-6 offset-lg-3 mt-5">
+      <h2 class="text-center mb-4">Create new Medicine</h2>
+      <form #mData="ngForm" (ngSubmit)="medicineCreate(mData.value)">
+        <div class="form-group">
+          <label for="name">product Name</label>
+          <input type="text" class="form-control" id="productName" name="productName" ngModel  required >
+        </div>
+        <div class="form-group">
+          <label for="mfgcompany">mfg company</label>
+          <input type="text" class="form-control" id="mfgcompany" name="mfgcompany"  ngModel required>
+        </div>
+        <div class="form-group">
+          <label for="mfgdate">mfgdate</label>
+          <input type="date" class="form-control" id="mfgdate" name="mfgdate"  ngModel required>
+        </div>
+        <div class="form-group">
+          <label for="unit">unit</label>
+          <input type="number" class="form-control" id="unit" name="unit"  ngModel required>
+        </div>
+        <div class="form-group">
+          <label for="expdate">expdate</label>
+          <input type="date" class="form-control" id="expdate" name="expdate"  ngModel required>
+        </div>
+        <div class="form-group">
+          <label for="type">type</label>
+          <input type="text" class="form-control" id="type" name="type"  ngModel required>
+        </div>
+        <div class="form-group">
+          <label for="price">price</label>
+          <input type="text" class="form-control" id="price" name="price"  ngModel required>
+        </div>
+        <div class="form-group">
+          <label for="batchid">batchid</label>
+          <input type="text" class="form-control" id="batchid" name="batchid"  ngModel required>
+        </div>
+        <div class="form-group">
+          <label for="totalLeafInOneBox">totalLeafInOneBox</label>
+          <input type="number" class="form-control" id="totalLeafInOneBox" name="totalLeafInOneBox"  ngModel required>
+        </div>
+        <div class="form-group">
+          <label for="numberOfItemInOneLeaf">numberOfItemInOneLeaf</label>
+          <input type="number" class="form-control" id="numberOfItemInOneLeaf" name="numberOfItemInOneLeaf"  ngModel required>
+        </div>
+        <div class="form-group">
+          <label for="about">about</label>
+          <input type="text" class="form-control" id="about" name="about"  ngModel required>
+        </div>
+
+        <div class="form-group">
+          <label for="sellerId">sellerId</label>
+          <input type="number" class="form-control" id="sellerId" name="sellerId"  ngModel required>
+        </div>
+
+
+        <div class="form-group">
+          <label for="image">Image</label>
+          <input type="file" class="form-control" id="image" name="image"  ngModel required>
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+<section >
+  <div class="main-view" id="view-pop">
+    <div class="img-section">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIgA23yukpFgMqKzVE_EKF36O2W_LlFkzu5g&usqp=CAU" alt="">
+    </div>
+
+    <div class="detail-section">
+      <button type="close" (click)=" closeViewPopUp()">X</button>
+      <h3>{{viewProduct.productName}}</h3>
+      <h6>Description: {{viewProduct.about}}</h6>
+      <p>Price: {{viewProduct.price}}</p>
+      <p>Quintity</p>
+      <button type="button">Add To cart</button>
+    </div>
+  </div>
+
+</section>

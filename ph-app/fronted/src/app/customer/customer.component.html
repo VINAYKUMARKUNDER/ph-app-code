@@ -1,0 +1,132 @@
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 offset-lg-3 mt-5">
+      <h2 class="text-center mb-4">Create new Customer</h2>
+      <form #mData="ngForm" (ngSubmit)="accountCreate(mData.value)" class="form-disign">
+        <div class="form-group">
+          <label for="name">Customer Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            placeholder="Enter name"
+            ngModel
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="address">Address</label>
+          <input
+            type="text"
+            class="form-control"
+            id="address"
+            name="address"
+            placeholder="Address"
+            ngModel
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            placeholder="Email"
+            ngModel
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            placeholder="Password"
+            ngModel
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input
+            type="text"
+            class="form-control"
+            id="phone"
+            name="phone"
+            placeholder="Mobile number"
+            ngModel
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" (click)="openPopUp()">
+            Create Account
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- alert massege -->
+<section>
+  <div class="container" >
+    <div class="popup" id="popup">
+      <div *ngIf="status" >
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIgA23yukpFgMqKzVE_EKF36O2W_LlFkzu5g&usqp=CAU" alt="">
+        <h2>thank you.</h2>
+      </div>
+
+      <div *ngIf="!status">
+        <img *ngIf="!status"  src="http://www.setra.com/hubfs/Sajni/crc_error.jpg" alt="">
+        <h2>OOPs!</h2>
+      </div>
+
+
+      <p>{{massege}}</p>
+      <button type="button" (click)="closePopUp()">Ok</button>
+    </div>
+  </div>
+
+
+</section>
+
+
+
+<section>
+  <button (click)="getAllOrder()">view Order</button>
+  <div id="main">
+    <div *ngFor="let product of products[0]" class="product">
+      <div
+        class="card">
+
+          <img class="img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIGvZj6DvHD78FQ8ppcBFO3O9UJActAvuXQ&usqp=CAU" alt="Product Image" />
+          <div class="card-body">
+            <h5 class="card-title wrap">Type: {{ product.type }}</h5>
+            <h6 class="card-title">Product Name: {{ product.productName }}</h6>
+            <p class="card-text wrap">Description: {{ product.about }}</p>
+            <p class="card-text">Price: {{ product.price }} Ru.</p>
+            <p class="card-text">Company: {{ product.mfgcompany }}</p>
+
+            <button class="btn btn-primary" (click)="cancelOrder(product)">Cancel Order</button>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+
